@@ -10,15 +10,10 @@ parser.add_argument("-r","--round", help="y/n")
 args = parser.parse_args()
 
 sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, args.path)
-temperature_in_celsius = sensor.get_temperature()
-temperature_in_fahrenheit = sensor.get_temperature(W1ThermSensor.DEGREES_F)
+temp = sensor.get_temperature()
 
 if args.scale == "fahrenheit" or args.scale == "f":
-    temp = (temperature_in_fahrenheit)
-elif args.scale == "celsius" or args.scale == "c":
-    temp = (temperature_in_celsius)
-else:
-    temp = (temperature_in_celsius)
+    temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
 
 if args.round == "yes" or args.round == "y":
     temp = int(round(temp))
