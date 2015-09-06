@@ -1,21 +1,31 @@
 #!/usr/bin/python
 
 import argparse
+import json
 from w1thermsensor import W1ThermSensor
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p","--path", required=True, help="Specify which sensor path to use")
+parser.add_argument("-p","--path", help="Specify a specific sensor ID. If path not provided returns all.")
 parser.add_argument("-s","--scale", help="Choose fahrenheit (f) or celsius (c)")
-parser.add_argument("-r","--round", help="y/n")
+parser.add_argument("-r","--round", action='store_true', default=False, help="Add to round values")
 args = parser.parse_args()
 
-sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, args.path)
-temp = sensor.get_temperature()
+def transform ( temperature ):
+    if args.scale == "fahrenheit" or args.scale == "f":
+        temperature = temperature * 1.8 + 32
 
-if args.scale == "fahrenheit" or args.scale == "f":
-    temp = sensor.get_temperature(W1ThermSensor.DEGREES_F)
+    if args.round == True:
+	temperature = int(round(temperature))
 
-if args.round == "yes" or args.round == "y":
-    temp = int(round(temp))
+    return temperature
 
-print temp
+if args.path == None:
+    data = {}
+    for sensor in W1ThermSensor.get_available_sensors():
+        data[sensor.id] = transform(sensor.get_temperature())
+    print json.dumps(data)
+
+else:
+    sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, args.path)
+    temp = transform(sensor.get_temperature())
+    print temp
