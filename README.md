@@ -5,9 +5,6 @@ Based on https://github.com/timofurrer/w1thermsensor
 # Requirements
 Python
 
-Add
-`dtoverlay=w1-gpio` to `/boot/config.txt` and reboot
-
 # Usage
 Command line example:
 
@@ -15,6 +12,9 @@ Command line example:
 $ ./install
 installing...
 done.
+```
+Reboot
+```
 $ ./detect
 Sensor 0000053055be has temperature 24.62
 Sensor 0000052fc128 has temperature 24.56
