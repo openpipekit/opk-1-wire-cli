@@ -4,3 +4,6 @@
 
 git clone https://github.com/timofurrer/w1thermsensor.git && cd w1thermsensor
 sudo python setup.py install
+
+# dtoverlay setup
+echo 'dtoverlay=w1-gpio' >> /boot/config.txt
