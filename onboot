@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#due to pirateship image deficiencies
+modprobe w1-gpio
+modprobe w1-therm
